@@ -1,0 +1,4 @@
+config/api_keys.py
+*.pyc
+.idea/
+.vagrant/
