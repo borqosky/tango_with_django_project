@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-{% load static %} <!-- New line -->
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Rango</title>
-    <link rel="stylesheet" href="{% static "css/base.css" %}"/> <!-- CSS -->
-    <script src="{% static "js/jquery.js" %}"></script> <!-- JavaScript -->
-</head>
-<body>
+{% extends "rango/base.html" %}
+{% load static %}
+
+{% block body_block %}
     {% if  user.is_authenticated %}
         <h1>Rango says...hello {{ user.username }}!</h1>
     {% else %}
@@ -22,7 +16,7 @@
     {% else %}
         <strong>There are no categories present.</strong>
     {% endif %}
-    <hr/>
+    <br/>
     {% if pages %}
         <ul>
             {% for page in pages %}
@@ -32,15 +26,5 @@
     {% else %}
         <strong>There are no pages present.</strong>
     {% endif %}
-    {% if user.is_authenticated %}
-        <a href="/rango/restricted/">Restricted Page</a><br/>
-        <a href="/rango/logout">Logout</a><br/>
-        <a href="/rango/add_category/">Add a New Category</a><br/>
-    {% else %}
-        <a href="/rango/register/">Register Here</a><br/>
-        <a href="/rango/login/">Login</a><br/>
-    {% endif %}
-    <a href="/rango/about/">About</a><br/>
     <img src="{% static "rango.jpg" %}" alt="Picture of Rango"/><br/> <!-- Images -->
-</body>
-</html>
+{% endblock %}
