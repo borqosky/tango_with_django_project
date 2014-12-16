@@ -11,6 +11,8 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+LOGIN_URL = '/rango/login/'
+
 MANAGERS = ADMINS
 
 DATABASE_PATH = os.path.join(PROJECT_PATH, 'rango.db')
