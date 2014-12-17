@@ -35,12 +35,6 @@ def index(request):
     for category in category_list:
         category.url = encode_url(category.name)
 
-    # Get the number of visits to the site.
-    # We use the COOKIES.get() function to obtain the visits cookie.
-    # If the cookie exists, the value returned is casted to an integer.
-    # If the cookie doesn't exist, we default to zero and cast that.
-    visits = int(request.COOKIES.get('visits', '0'))
-
     # Does the cookie last_visit exist?
     if request.session.get('last_visit'):
         # The session has a value for the last visit
@@ -61,9 +55,16 @@ def index(request):
 
 
 def about(request):
+    # Does the cookie visit exist?
+    if request.session.get('visits'):
+        count = request.session.get('visits')
+        count += 1
+    else:
+        count = 1
+    request.session['visits'] = count
+
     context = RequestContext(request)
-    context_dir = {'boldmessage': 'Rango Says: Here is the about page.'}
-    return render_to_response('rango/about.html', context_dir, context)
+    return render_to_response('rango/about.html', {'visits': count}, context)
 
 
 def category(request, category_name_url):

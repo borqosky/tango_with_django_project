@@ -5,6 +5,6 @@
 {% block title %}About{% endblock %}
 
 {% block body_block %}
-    <p>{{ boldmessage }}</p><br/>
+    <p>You have visited this site {{ visits }} time{{ visits|pluralize }}.</p><br/>
     <img src="{% static "rango.jpg" %}" alt="Picture of rango"/>
 {% endblock %}
