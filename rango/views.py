@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
+from twisted.protocols import dict
 
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm
@@ -56,15 +57,15 @@ def index(request):
 
 def about(request):
     # Does the cookie visit exist?
-    if request.session.get('visits'):
-        count = request.session.get('visits')
+    if request.session.get('visit_count'):
+        count = request.session.get('visit_count')
         count += 1
     else:
         count = 1
-    request.session['visits'] = count
+    request.session['visit_count'] = count
 
     context = RequestContext(request)
-    return render_to_response('rango/about.html', {'visits': count}, context)
+    return render_to_response('rango/about.html', {'visit_count': count}, context)
 
 
 def category(request, category_name_url):
@@ -230,7 +231,9 @@ def register(request):
 def user_login(request):
     # Like before, obtain the context for the user's request.
     context = RequestContext(request)
-
+    request_context = {}
+    request_context['bad_details'] = False
+    request_context['disabled_account'] = False
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         # Gather the username and password provided by the user.
@@ -253,18 +256,18 @@ def user_login(request):
                 login(request, user)
                 return HttpResponseRedirect('/rango/')
             else:
-                return HttpResponse("Your Rango account is disabled.")
+                request_context['disabled_account'] = True
+                print "Your Rango account is disabled."
         else:
             # Bad login details were provided. So we can't log the user in.
+            request_context['bad_details'] = True
             print "Invalid login details: {0}, {1}".format(username, password)
             print "Invalid login details supplied."
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
-    else:
-        # No context variables to pass to the template system, hence the
-        # blank dictionary object...
-        return render_to_response('rango/login.html',   {}, context)
+
+    return render_to_response('rango/login.html', request_context, context)
 
 
 @login_required

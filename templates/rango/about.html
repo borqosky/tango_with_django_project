@@ -5,6 +5,10 @@
 {% block title %}About{% endblock %}
 
 {% block body_block %}
-    <p>You have visited this site {{ visits }} time{{ visits|pluralize }}.</p><br/>
-    <img src="{% static "rango.jpg" %}" alt="Picture of rango"/>
+    <div class="hero-unit">
+        <h1>About Rango</h1>
+        This is <strong>Rango's about page</strong>.<br/>
+        <p>You have visited this site {{ visit_count }} time{{ visit_count|pluralize }}.</p><br/>
+        <img src="{% static "rango.jpg" %}" alt="Picture of Rango"/>
+    </div>
 {% endblock %}
