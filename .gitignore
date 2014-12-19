@@ -1,5 +1,6 @@
 config/api_keys.py
 *.pyc
 *.db
+*.key
 .idea/
 .vagrant/
