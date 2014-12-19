@@ -22,6 +22,14 @@ def decode_url(url):
     return ' '.join(text)
 
 
+def get_category_list(context_dict):
+    cat_list = Category.objects.all()
+    for cat in cat_list:
+        cat.url = encode_url(cat.name)
+    context_dict['cat_list'] = cat_list
+    return context_dict
+
+
 def index(request):
     # Obtain the context from the HTTP request.
     context = RequestContext(request)
@@ -31,10 +39,11 @@ def index(request):
     # Place the list in our context_dict dictionary which will be passed to the template engine.
     category_list = Category.objects.order_by('-likes')[:5]
     context_dict = {'categories': category_list}
-
     context_dict['pages'] = Page.objects.order_by('-views')[:5]
     for category in category_list:
         category.url = encode_url(category.name)
+
+    context_dict = get_category_list(context_dict)
 
     # Does the cookie last_visit exist?
     if request.session.get('last_visit'):
