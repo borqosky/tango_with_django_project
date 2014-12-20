@@ -1,5 +1,5 @@
 from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
@@ -309,3 +309,16 @@ def user_logout(request):
 def profile(request):
     context = RequestContext(request)
     return render_to_response('rango/profile.html', {}, context)
+
+
+def track_url(request):
+    if request.method == 'GET':
+        if 'page_id' in request.GET:
+            page_id = request.GET['page_id']
+            try:
+                page = Page.objects.get(id=page_id)
+                page.views += 1
+                page.save()
+                return redirect(page.url)
+            except Page.DoesNotExist:
+                return redirect('index')
