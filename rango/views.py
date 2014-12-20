@@ -88,6 +88,8 @@ def category(request, category_name_url):
     context_dict = {'category_name': category_name}
     context_dict['category_name_url'] = category_name_url
 
+    context_dict['cat_list'] = get_category_list()
+
     try:
         # Can we find a category with the given name?
         # If we can't, the .get() method raises a DoesNotExist exception.
