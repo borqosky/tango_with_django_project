@@ -303,3 +303,9 @@ def restricted(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/rango/')
+
+
+@login_required
+def profile(request):
+    context = RequestContext(request)
+    return render_to_response('rango/profile.html', {}, context)
