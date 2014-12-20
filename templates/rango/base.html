@@ -48,6 +48,14 @@
         <div class="span3">
           <div class="well sidebar-nav">
             {% block sidebar%}{% endblock %}
+            <div id="cats">
+                {% if cat_list %}
+                <ul class="nav nav-list"><li>Category List</li></ul>
+                <ul class="nav nav-list">
+                    {% include 'rango/category_list.html' with category=cat_list %}
+                </ul>
+                {% endif %}
+            </div>
           </div><!--/.well -->
         </div><!--/span-->
         <div class="span9">

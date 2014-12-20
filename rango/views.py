@@ -22,12 +22,11 @@ def decode_url(url):
     return ' '.join(text)
 
 
-def get_category_list(context_dict):
+def get_category_list():
     cat_list = Category.objects.all()
     for cat in cat_list:
         cat.url = encode_url(cat.name)
-    context_dict['cat_list'] = cat_list
-    return context_dict
+    return cat_list
 
 
 def index(request):
@@ -43,7 +42,7 @@ def index(request):
     for category in category_list:
         category.url = encode_url(category.name)
 
-    context_dict = get_category_list(context_dict)
+    context_dict['cat_list'] = get_category_list()
 
     # Does the cookie last_visit exist?
     if request.session.get('last_visit'):
