@@ -21,11 +21,12 @@
                 <br/>
                 {% if user.is_authenticated %}
                     <br/>
-                    <a href="/rango/category/{{ category_name_url }}/add_page">Add a New Page</a>
+                    <a href="/rango/category/{{ category_name_url }}/add_page">Add a New Page</a><br/>
         {% endif %}
     {% else %}
         The specified category {{ category_name }} does not exists!
     {% endif %}
         </div>
+    {% include "rango/search.html" %}
     </div>
 {% endblock %}
