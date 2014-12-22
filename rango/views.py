@@ -217,6 +217,7 @@ def add_page(request, category_name_url):
         context)
 
 
+@login_required
 def auto_add_add_page(request):
     context = RequestContext(request)
     cat_id = None
