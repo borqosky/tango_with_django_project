@@ -13,7 +13,14 @@
                 <ol>
                 {% for result in result_list %}
                     <li>
-                        <strong><a href="{{ result.link }}">{{ result.title }}</a></strong><br/>
+                        <strong><a href="{{ result.link }}">{{ result.title }}</a></strong>
+                        {% if user.is_authenticated %}
+                            <button class="rango-add btn btn-mini btn-info" type="button"
+                                    data-catid="{{ category.id }}"
+                                    data-title="{{ result.title }}"
+                                    data-url="{{ result.link }}">Add</button>
+                        {% endif %}
+                        <br/>
                         <em>{{ result.summary }}</em>
                     </li>
                 {% endfor %}

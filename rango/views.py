@@ -217,6 +217,26 @@ def add_page(request, category_name_url):
         context)
 
 
+def auto_add_add_page(request):
+    context = RequestContext(request)
+    cat_id = None
+    title = None
+    url = None
+    pages = []
+    if request.method == 'GET':
+        cat_id = request.GET['cat_id']
+        title = request.GET['title']
+        url = request.GET['url']
+    if cat_id:
+        category = Category.objects.get(id=int(cat_id))
+        if category:
+           Page.objects.get_or_create(category=category, title=title, url=url)
+
+        pages = Page.objects.filter(category=category).order_by('-views')
+
+    return render_to_response('rango/page_list.html', {'category': category, 'pages': pages}, context)
+
+
 def register(request):
     # Like before, get the request's context.
     context = RequestContext(request)
@@ -358,6 +378,5 @@ def suggest_category(request):
         starts_with = request.GET['suggestion']
 
     cat_list = get_category_list(8, starts_with)
-
 
     return render_to_response('rango/category_list.html', {'categories': cat_list}, context)
