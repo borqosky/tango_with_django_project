@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True)
     views = models.IntegerField(default=0)
@@ -9,6 +8,13 @@ class Category(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if self.views < 1:
+            self.views = 1
+
+        super(Category, self).save(*args, **kwargs)
+
 
     class Meta:
         verbose_name_plural = "categories"
