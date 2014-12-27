@@ -231,7 +231,7 @@ def auto_add_add_page(request):
     if cat_id:
         category = Category.objects.get(id=int(cat_id))
         if category:
-           Page.objects.get_or_create(category=category, title=title, url=url)
+            Page.objects.get_or_create(category=category, title=title, url=url)
 
         pages = Page.objects.filter(category=category).order_by('-views')
 

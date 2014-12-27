@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True)
@@ -15,7 +16,6 @@ class Category(models.Model):
 
         super(Category, self).save(*args, **kwargs)
 
-
     class Meta:
         verbose_name_plural = "categories"
 
@@ -25,6 +25,13 @@ class Page(models.Model):
     title = models.CharField(max_length=128)
     url = models.URLField()
     views = models.IntegerField(default=0)
+    first_visit = models.DateTimeField(editable=False, auto_now_add=True)
+    last_visit = models.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        """On save update last visit"""
+        self.last_visit = timezone.now()
+        super(Page, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.title
